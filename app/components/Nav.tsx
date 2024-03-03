@@ -48,7 +48,7 @@ export default function Nav() {
     const relativeX = event.clientX - bounds.left;
     const relativeY = event.clientY - bounds.top;
     const xRange = mapRange(0, bounds.width, -1, 1)(relativeX);
-    const yRange = mapRange(0, bounds.width, -1, 1)(relativeY);
+    const yRange = mapRange(0, bounds.height, -1, 1)(relativeY);
     x.set((xRange as unknown as number) * 10);
     y.set((yRange as unknown as number) * 10);
   };
