@@ -8,6 +8,7 @@ import {
   motion,
   useMotionValue,
   AnimatePresence,
+  useTransform,
 } from "framer-motion";
 import React from "react";
 import path from "path";
@@ -66,6 +67,8 @@ export default function Nav() {
           {links.map((link) => {
             const x = useMotionValue(0);
             const y = useMotionValue(0);
+            const testX = useTransform(x, (latest) => latest * 0.5);
+            const testY = useTransform(y, (latest) => latest * 0.5);
             return (
               <motion.li
                 onPointerMove={(event) => {
@@ -85,7 +88,10 @@ export default function Nav() {
                   )}
                   href={link.path}
                 >
-                  <motion.span className="relative z-10">
+                  <motion.span
+                    style={{ x: testX, y: testY }}
+                    className="relative z-10"
+                  >
                     {link.name}
                   </motion.span>
                   {pathname === link.path ? (
