@@ -3,7 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { MotionValue, motion, useMotionValue } from "framer-motion";
+import {
+  MotionValue,
+  motion,
+  useMotionValue,
+  AnimatePresence,
+} from "framer-motion";
 import React from "react";
 
 export default function Nav() {
@@ -49,41 +54,42 @@ export default function Nav() {
     const relativeY = event.clientY - bounds.top;
     const xRange = mapRange(0, bounds.width, -1, 1)(relativeX);
     const yRange = mapRange(0, bounds.height, -1, 1)(relativeY);
-    x.set((xRange as unknown as number) * 10);
-    y.set((yRange as unknown as number) * 10);
+    x.set(xRange * 10);
+    y.set(yRange * 10);
   };
 
   return (
     <nav className="p-8">
       <ul className="flex gap-12">
-        {links.map((link) => {
-          const x = useMotionValue(0);
-          const y = useMotionValue(0);
-
-          return (
-            <motion.li
-              onPointerMove={(event) => {
-                const item = event.currentTarget;
-                setTransform(item, event, x, y);
-              }}
-              key={link.path}
-              onPointerLeave={() => (x.set(0), y.set(0))}
-              style={{ x, y }}
-            >
-              <MotionLink
-                className={cn(
-                  "rounded-md px-4 py-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-slate-200",
-                  pathname === link.path
-                    ? "cursor-default bg-slate-300 hover:bg-slate-300"
-                    : "",
-                )}
-                href={link.path}
+        <AnimatePresence>
+          {links.map((link) => {
+            const x = useMotionValue(0);
+            const y = useMotionValue(0);
+            return (
+              <motion.li
+                onPointerMove={(event) => {
+                  const item = event.currentTarget;
+                  setTransform(item, event, x, y);
+                }}
+                key={link.path}
+                onPointerLeave={() => (x.set(0), y.set(0))}
+                style={{ x, y }}
               >
-                <motion.span>{link.name}</motion.span>
-              </MotionLink>
-            </motion.li>
-          );
-        })}
+                <MotionLink
+                  className={cn(
+                    "relative rounded-md px-4 py-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-slate-200",
+                    pathname === link.path
+                      ? "cursor-default bg-slate-300 hover:bg-slate-300"
+                      : "",
+                  )}
+                  href={link.path}
+                >
+                  <motion.span>{link.name}</motion.span>
+                </MotionLink>
+              </motion.li>
+            );
+          })}
+        </AnimatePresence>
       </ul>
     </nav>
   );
