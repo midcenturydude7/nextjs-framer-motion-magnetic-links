@@ -67,6 +67,7 @@ export default function Nav() {
                 setTransform(item, event, x, y);
               }}
               key={link.path}
+              onPointerLeave={() => (x.set(0), y.set(0))}
               style={{ x, y }}
             >
               <MotionLink
