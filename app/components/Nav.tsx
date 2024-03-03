@@ -33,9 +33,8 @@ export default function Nav() {
     const INPUT_RANGE = inputUpper - inputLower;
     const OUTPUT_RANGE = outputUpper - outputLower;
 
-    return (value: number) => {
+    return (value: number) =>
       outputLower + (((value - inputLower) / INPUT_RANGE) * OUTPUT_RANGE || 0);
-    };
   };
 
   const setTransform = (
