@@ -11,7 +11,6 @@ import {
   useTransform,
 } from "framer-motion";
 import React from "react";
-import path from "path";
 
 export default function Nav() {
   const links = [
